@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import { Sidebar } from "./components/sidebar/Sidebar";
 // import { Topbar } from "./components/topbar/Topbar";
-// import { HomePage } from "./pages/home/HomePage";
+import { HomePage } from "./pages/home/HomePage";
 import { LoginPage } from "./pages/login/LoginPage";
+import { UserPage } from "./pages/user/UserPage";
 import "./App.css";
-// import { HomePage } from "./pages/home/HomePage";
 
 const App = () => {
   return (
@@ -19,8 +19,9 @@ const App = () => {
 
     <BrowserRouter>
       <Routes>
-        {/* <Route path="/" component={<HomePage />} /> */}
-        <Route path="/login" component={<LoginPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/user" element={<UserPage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </BrowserRouter>
   );

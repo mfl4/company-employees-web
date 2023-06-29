@@ -5,7 +5,6 @@ export const DashboardLayout = () => {
   return (
     <>
       <Topbar />
-
       <div className="container">
         <Sidebar />
       </div>

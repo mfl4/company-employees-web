@@ -1,57 +1,81 @@
-import { useState } from "react";
 import "./LoginPage.css";
-// import axios from "axios";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
-export const LoginPage = () => {
-  const [values, setValues] = useState({
-    email: "",
-    password: "",
-  });
-  // const navigate = useNavigate();
-  // axios.defaults.withCredentials = true;
-  // const [error, setError] = useState("");
+const LoginView = (props) => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("aman");
-    // axios
-    //   .post("http://localhost:8081/login", values)
-    //   .then((res) => {
-    //     if (res.data.Status === "Success") {
-    //       navigate("/");
-    //     } else {
-    //       setError(res.data.Error);
-    //     }
-    //   })
-    //   .catch((err) => console.log(err));
+  axios.defaults.withCredentials = true;
+  // axios.post("http://localhost:3000/auth")
+  //     .then((res) => {
+  //         if (res.data.login) navigate("/home");
+  //     });
+
+  const handleSubmit = async (e, email, password) => {
+    e.preventDefault();
+    console.log(email);
+    console.log(password);
+    const res = await axios.post(`http://127.0.0.1:3000/login/?email=${email}&password=${password}`);
+    console.log(res.data);
+    if (res.data.message === "success" && res.data.role === "user") {
+      navigate("/H");
+    } else if (res.data.message === "success" && res.data.role === "admin") {
+      // navigate("/home/admin");
+      co;
+    }
   };
-
   return (
-    <div className="login">
-      <div className="login-form">
-        {/* <div className="text-danger">{error && error}</div> */}
-        <h2>Login</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-wrapper">
-            <label htmlFor="email">
-              <strong>Email</strong>
-            </label>
-            <input type="email" placeholder="Enter Email" name="email" onChange={(e) => setValues({ ...values, email: e.target.value })} className="form-control" autoComplete="off" />
-          </div>
-          <div className="form-wrapper">
-            <label htmlFor="password">
-              <strong>Password</strong>
-            </label>
-            <input type="password" placeholder="Enter Password" name="password" onChange={(e) => setValues({ ...values, password: e.target.value })} className="form-control" />
-          </div>
-          <button type="submit" className="btn btn-success w-100 rounded-0">
-            {" "}
-            Log in
-          </button>
-          <p>You are agree to aour terms and policies</p>
-        </form>
+    <section className="login-section">
+      <div className="form-box">
+        <div className="form-value">
+          <form action="">
+            <h2>
+              {" "}
+              {props.selectedPage} As <span style={{ color: props.selectedRole === "Admin" ? "blueviolet" : "black" }}>{props.selectedRole}</span>{" "}
+            </h2>
+            <div className="inputbox">
+              <input
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+                type="email"
+              />
+              <label for="">Email</label>
+            </div>
+            <div className="inputbox">
+              <input
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+                type="password"
+              />
+              <label for="">Password </label>
+            </div>
+            <button
+              onClick={(e) => {
+                handleSubmit(e, email, password);
+              }}
+              className="loginbutton"
+            >
+              {props.selectedPage}
+            </button>
+            <div className="to-register">
+              <a onClick={() => navigate(`/${props.roleRegisterPage}`)}>Don't have an account?</a>
+            </div>
+            <div className="switch-role">
+              <a onClick={() => navigate(`/${props.roleLoginPage}`)}>
+                {props.selectedPage} as {props.role}{" "}
+              </a>
+              <i className="fas fa-arrow-right"></i>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
+
+export default LoginView;

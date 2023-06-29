@@ -2,5 +2,10 @@ import { DashboardLayout } from "../../components/layouts/DashboardLayout";
 import "./HomePage.css";
 
 export const HomePage = () => {
-  return <DashboardLayout />;
+  return (
+    <>
+      <DashboardLayout />
+      <div className="home">Hello</div>
+    </>
+  );
 };
